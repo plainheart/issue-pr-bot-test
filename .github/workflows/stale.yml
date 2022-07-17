@@ -4,8 +4,7 @@ permissions:
   issues: write
 
 on:
-  schedule:
-  - cron: '23 13 * * *'
+  workflow_dispatch:
 
 jobs:
   stale:
