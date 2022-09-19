@@ -24,5 +24,7 @@ jobs:
       - name: Install Dependencies & Run dev
         run: |
           cd echarts-doc
+          node -v
+          npm -v
           npm i
           npm run dev
