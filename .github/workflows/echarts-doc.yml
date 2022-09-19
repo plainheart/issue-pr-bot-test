@@ -21,10 +21,8 @@ jobs:
       - name: Checkout ECharts Doc Repo
         run: git clone --depth=1 https://github.com/apache/echarts-doc
 
-      - name: Install Dependencies
+      - name: Install Dependencies & Run dev
         run: |
           cd echarts-doc
           npm i
-
-      - name: Run dev
-        run: npm run dev
+          npm run dev
