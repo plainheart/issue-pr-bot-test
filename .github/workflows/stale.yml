@@ -40,7 +40,6 @@ jobs:
           # echarts bot will close it and leave message
           days-before-close: -1
           only-issue-labels: 'waiting-for: author'
-          stale-issue-label: ''
-          close-issue-label: inactive
+          stale-issue-label: 'inactive'
           exempt-issue-labels: 'FAQ,priority: high'
           exempt-all-milestones: true
