@@ -30,3 +30,16 @@ jobs:
         operations-per-run: 50
         ascending: true
         ignore-updates: true
+
+    - name: Close Inactive Issues That Awaiting Author's Response
+    - uses: actions/stale@v8
+    - with:
+        days-before-stale: 3
+        # stale bot only adds the label
+        # echarts bot will close it and leave message
+        days-before-close: -1
+        only-issue-labels: 'waiting-for: author'
+        stale-issue-label: ''
+        close-issue-label: inactive
+        exempt-issue-labels: 'FAQ,priority: high'
+        exempt-all-milestones: true
