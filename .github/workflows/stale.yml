@@ -15,31 +15,32 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/stale@v5.1.0
-      with:
-        days-before-stale: 0
-        days-before-close: 0
-        stale-issue-label: stale
-        stale-pr-label: stale
-        stale-issue-message: 'This issue has been automatically marked as stale because it did not have recent activity. It will be closed in 7 days if no further activity occurs. If you wish not to mark it as stale, please leave a comment in this issue.'
-        close-issue-message: 'This issue has been automatically closed because it did not have recent activity. If this remains to be a problem with the latest version of Apache ECharts, please open a new issue and link this to it. Thanks!'
-        close-issue-reason: 'not_planned'
-        stale-pr-message: 'This PR has been automatically marked as stale because it has not had recent activity. It will be closed in 7 days if no further activity occurs. If you wish not to mark it as stale, please leave a comment in this PR. We are sorry for this but 2 years is a long time and the code base has been changed a lot. Thanks for your contribution anyway.'
-        close-pr-message: 'This PR has been automatically closed because it has not had recent activity. Sorry for that and we are looking forward to your next contribution.'
-        exempt-issue-labels: 'FAQ,priority: high'
-        operations-per-run: 50
-        ascending: true
-        ignore-updates: true
+      - name: Close Stale Issues
+        uses: actions/stale@v8
+        with:
+          days-before-stale: 730
+          days-before-close: 7
+          stale-issue-label: stale
+          stale-pr-label: stale
+          stale-issue-message: 'This issue has been automatically marked as stale because it did not have recent activity. It will be closed in 7 days if no further activity occurs. If you wish not to mark it as stale, please leave a comment in this issue.'
+          close-issue-message: 'This issue has been automatically closed because it did not have recent activity. If this remains to be a problem with the latest version of Apache ECharts, please open a new issue and link this to it. Thanks!'
+          close-issue-reason: 'not_planned'
+          stale-pr-message: 'This PR has been automatically marked as stale because it has not had recent activity. It will be closed in 7 days if no further activity occurs. If you wish not to mark it as stale, please leave a comment in this PR. We are sorry for this but 2 years is a long time and the code base has been changed a lot. Thanks for your contribution anyway.'
+          close-pr-message: 'This PR has been automatically closed because it has not had recent activity. Sorry for that and we are looking forward to your next contribution.'
+          exempt-issue-labels: 'FAQ,priority: high'
+          exempt-all-milestones: true
+          operations-per-run: 500
+          ascending: true
 
-    - name: Close Inactive Issues That Awaiting Author's Response
-    - uses: actions/stale@v8
-    - with:
-        days-before-stale: 3
-        # stale bot only adds the label
-        # echarts bot will close it and leave message
-        days-before-close: -1
-        only-issue-labels: 'waiting-for: author'
-        stale-issue-label: ''
-        close-issue-label: inactive
-        exempt-issue-labels: 'FAQ,priority: high'
-        exempt-all-milestones: true
+      - name: Close Inactive Issues That Awaiting Author's Response
+        uses: actions/stale@v8
+        with:
+          days-before-stale: 3
+          # stale bot only adds the label
+          # echarts bot will close it and leave message
+          days-before-close: -1
+          only-issue-labels: 'waiting-for: author'
+          stale-issue-label: ''
+          close-issue-label: inactive
+          exempt-issue-labels: 'FAQ,priority: high'
+          exempt-all-milestones: true
