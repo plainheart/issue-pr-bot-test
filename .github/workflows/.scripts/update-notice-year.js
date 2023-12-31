@@ -7,7 +7,7 @@
  */
 module.exports = async function updateNoticeYear(octokit) {
   const newYear = new Date().getFullYear()
-  console.log('Prepare to update notice year to' + newYear)
+  console.log('Prepare to update notice year to', newYear)
 
   const noticeContent = `Apache ECharts
 Copyright 2017-${newYear} The Apache Software Foundation
@@ -48,7 +48,7 @@ The Apache Software Foundation (https://www.apache.org/).`
     ref: `refs/heads/${newBranchName}`,
     sha: defaultBranch.commit.sha
   })
-  console.log(`Created a new branch ${newBranchName}`)
+  console.log('Created a new branch:', newBranchName)
 
   await octokit.rest.repos.createOrUpdateFileContents({
     ...repoParams,
@@ -59,7 +59,7 @@ The Apache Software Foundation (https://www.apache.org/).`
     branch: newBranchName
   })
 
-  console.log(`Updated the NOTICE file on the new branch`)
+  console.log('Updated the NOTICE file on the new branch')
 
   const pr = (await octokit.rest.pulls.create({
     ...repoParams,
