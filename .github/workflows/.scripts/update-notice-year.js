@@ -45,7 +45,7 @@ The Apache Software Foundation (https://www.apache.org/).`
   const newBranchName = `bot/update-notice-year/${newYear}`
   await octokit.rest.git.createRef({
     ...repoParams,
-    ref: `heads/${newBranchName}`,
+    ref: `refs/heads/${newBranchName}`,
     sha: defaultBranch.commit.sha
   })
   console.log(`Created a new branch ${newBranchName}`)
