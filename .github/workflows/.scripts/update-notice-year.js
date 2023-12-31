@@ -5,7 +5,7 @@
 /**
  * @param {Octokit} octokit
  */
-async function updateNoticeYear(octokit) {
+module.exports = async function updateNoticeYear(octokit) {
   const newYear = new Date().getFullYear()
   console.log('Prepare to update notice year to' + newYear)
 
