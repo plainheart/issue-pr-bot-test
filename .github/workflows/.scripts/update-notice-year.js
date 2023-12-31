@@ -31,23 +31,22 @@ The Apache Software Foundation (https://www.apache.org/).`
   })).data
   const remoteNoticeContent = base64ToUtf8(remoteNoticeFile.content)
   if (remoteNoticeContent === noticeContent) {
-    logger.info('NOTICE year is already updated.')
+    console.log('NOTICE year is already updated.')
     return
   }
 
-  logger.info('Ready to update the NOTICE file:\n' + noticeContent)
+  console.log('Ready to update the NOTICE file:\n' + noticeContent)
 
   const defaultBranch = (await rest.repos.getBranch({
     ...repoParams,
     branch: defaultBranchName
   })).data
-  const defaultBranchCommitSha = defaultBranch.commit.sha
 
   const newBranchName = `bot/update-notice-year/${newYear}`
   await octokit.rest.git.createRef({
     ...repoParams,
     ref: `heads/${newBranchName}`,
-    sha: defaultBranchCommitSha
+    sha: defaultBranch.commit.sha
   })
   console.log(`Created a new branch ${newBranchName}`)
 
