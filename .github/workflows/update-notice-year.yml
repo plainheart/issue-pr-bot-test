@@ -2,7 +2,8 @@ name: Update NOTICE year
 
 on:
   schedule:
-    - cron: '0 0 1 1 *'
+    # 1/1 00:00 UTC+8
+    - cron: '0 16 31 12 *'
   workflow_dispatch:
 
 jobs:
