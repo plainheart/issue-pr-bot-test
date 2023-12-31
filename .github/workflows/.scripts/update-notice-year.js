@@ -18,6 +18,8 @@ The Apache Software Foundation (https://www.apache.org/).`
 
   const repoCtx = context.repo
 
+  console.log('repoCtx', repoCtx)
+
   const repoInfo = (await octokit.rest.repos.get(repoCtx)).data
   const defaultBranchName = repoInfo.default_branch
   const remoteNoticeFile = (await octokit.rest.repos.getContent({
