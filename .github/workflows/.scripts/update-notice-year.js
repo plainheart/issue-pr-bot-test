@@ -37,7 +37,7 @@ The Apache Software Foundation (https://www.apache.org/).`
 
   console.log('Ready to update the NOTICE file:\n' + noticeContent)
 
-  const defaultBranch = (await rest.repos.getBranch({
+  const defaultBranch = (await octokit.rest.repos.getBranch({
     ...repoParams,
     branch: defaultBranchName
   })).data
