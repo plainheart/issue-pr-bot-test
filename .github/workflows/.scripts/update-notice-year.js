@@ -1,11 +1,12 @@
 /**
  * @typedef {import('@octokit/rest').Octokit} Octokit
+ * @typedef {import('@actions/github')['context']} Context
  */
 
-/**
- * @param {Octokit} octokit
- */
-module.exports = async function updateNoticeYear(octokit) {
+module.exports = async function updateNoticeYear(
+  /** @type {{ octokit: Octokit, context: Context }} */
+  { octokit, context }
+) {
   const newYear = new Date().getFullYear()
   console.log('Prepare to update notice year to', newYear)
 
@@ -15,17 +16,12 @@ Copyright 2017-${newYear} The Apache Software Foundation
 This product includes software developed at
 The Apache Software Foundation (https://www.apache.org/).`
 
-  const repoParams = {
-    // owner: 'apache',
-    // repo: 'echarts',
-    owner: 'plainheart',
-    repo: 'issue-pr-bot-test',
-  }
+  const repoCtx = context.repo
 
-  const repoInfo = (await octokit.rest.repos.get(repoParams)).data
+  const repoInfo = (await octokit.rest.repos.get(repoCtx)).data
   const defaultBranchName = repoInfo.default_branch
   const remoteNoticeFile = (await octokit.rest.repos.getContent({
-    ...repoParams,
+    ...repoCtx,
     path: 'NOTICE',
     ref: defaultBranchName
   })).data
@@ -38,20 +34,20 @@ The Apache Software Foundation (https://www.apache.org/).`
   console.log('Ready to update the NOTICE file:\n' + noticeContent)
 
   const defaultBranch = (await octokit.rest.repos.getBranch({
-    ...repoParams,
+    ...repoCtx,
     branch: defaultBranchName
   })).data
 
   const newBranchName = `bot/update-notice-year/${newYear}`
   await octokit.rest.git.createRef({
-    ...repoParams,
+    ...repoCtx,
     ref: `refs/heads/${newBranchName}`,
     sha: defaultBranch.commit.sha
   })
   console.log('Created a new branch:', newBranchName)
 
   await octokit.rest.repos.createOrUpdateFileContents({
-    ...repoParams,
+    ...repoCtx,
     path: 'NOTICE',
     message: `chore: update NOTICE year to ${newYear}`,
     content: utf8ToBase64(noticeContent),
@@ -62,7 +58,7 @@ The Apache Software Foundation (https://www.apache.org/).`
   console.log('Updated the NOTICE file on the new branch')
 
   const pr = (await octokit.rest.pulls.create({
-    ...repoParams,
+    ...repoCtx,
     head: newBranchName,
     base: defaultBranchName,
     maintainer_can_modify: true,
