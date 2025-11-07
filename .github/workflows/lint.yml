@@ -1,0 +1,28 @@
+name: Lint
+
+on:
+ push:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth:2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Collect changed files
+        run: |
+          echo -e "Changed files: \n$(cat ./changed_files)"
+      - name: Lint
+        run: npx eslint $(cat ./changed_files)
